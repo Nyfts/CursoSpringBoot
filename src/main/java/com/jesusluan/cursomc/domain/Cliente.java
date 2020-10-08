@@ -14,6 +14,9 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.jesusluan.cursomc.domain.enums.TipoCliente;
 
@@ -30,6 +33,7 @@ public class Cliente implements Serializable {
 	private Integer tipoCliente;
 	
 	@OneToMany(mappedBy = "cliente")
+	@OnDelete(action = OnDeleteAction.CASCADE)
 	private List<Endereco> enderecos = new ArrayList<>();
 	
 	@ElementCollection
@@ -40,7 +44,7 @@ public class Cliente implements Serializable {
 	@OneToMany(mappedBy = "cliente")
 	private List<Pedido> pedidos = new ArrayList<>();
 	
-	public Cliente () {
+	public Cliente() {
 		
 	}
 
@@ -50,7 +54,7 @@ public class Cliente implements Serializable {
 		this.nome = nome;
 		this.email = email;
 		this.cpfOuCnpj = cpfOuCnpj;
-		this.tipoCliente = tipoCliente.getCod();
+		this.tipoCliente = (tipoCliente == null) ? null : tipoCliente.getCod();
 	}
 
 	public Integer getId() {
